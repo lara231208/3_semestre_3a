@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Detalhe do Cliente - AutoJuris</title>
+<link rel="stylesheet" href="../css/style.css">
+<script src="https://unpkg.com/feather-icons"></script>
+</head>
+
+<body>
+
+<div class="content detalhe">
+
+<a href="clientes.html" class="voltar">
+<i data-feather="arrow-left"></i>
+Voltar
+</a>
+
+<!-- NOME -->
+<h1 id="nomeCliente"></h1>
+
+<!-- INFORMAÇÕES PRINCIPAIS -->
+<div id="infoCliente" class="info-topo"></div>
+
+<div class="grid-detalhe">
+
+<!-- ENVIAR ATUALIZAÇÃO -->
+<div class="card-box">
+<h3>
+<i data-feather="send"></i>
+Enviar atualização
+</h3>
+
+<textarea id="mensagemAtualizacao" placeholder="Escreva a atualização..."></textarea>
+
+<button class="btn-primary" onclick="enviarAtualizacao()">
+<i data-feather="message-circle"></i>
+Enviar via WhatsApp
+</button>
+</div>
+
+<!-- SOLICITAR DOCUMENTO -->
+<div class="card-box">
+<h3>
+<i data-feather="file-text"></i>
+Solicitar documento
+</h3>
+
+<p>Enviar mensagem solicitando documentos pendentes.</p>
+
+<button class="btn-secondary" onclick="solicitarDocumento()">
+<i data-feather="paperclip"></i>
+Solicitar via WhatsApp
+</button>
+</div>
+
+<!-- ANEXAR DOCUMENTO -->
+<div class="card-box">
+<h3>
+<i data-feather="upload"></i>
+Anexar documento
+</h3>
+
+<input type="file" id="arquivoDocumento">
+
+<button class="btn-secondary" onclick="anexarDocumento()">
+<i data-feather="check-circle"></i>
+Salvar Documento
+</button>
+</div>
+
+</div>
+
+<!-- HISTÓRICO -->
+<div class="card-box full">
+<h3>
+<i data-feather="clock"></i>
+Histórico de comunicações
+</h3>
+<div id="historico"></div>
+</div>
+
+</div>
+
+<script src="../js/script.js"></script>
+
+<script>
+
+feather.replace();
+
+const clienteId = localStorage.getItem("clienteSelecionado");
+const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+const cliente = clientes.find(c => c.id == clienteId);
+
+if(cliente){
+
+document.getElementById("nomeCliente").innerText = cliente.nome;
+
+document.getElementById("infoCliente").innerHTML = 
+`
+<div><strong>Telefone:</strong> ${cliente.telefone}</div>
+<div><strong>Email:</strong> ${cliente.email}</div>
+<div><strong>CPF:</strong> ${cliente.cpf}</div>
+<div><strong>RG:</strong> ${cliente.rg}</div>
+<div><strong>Endereço:</strong> ${cliente.endereco}</div>
+<div><strong>Nacionalidade:</strong> ${cliente.nacionalidade}</div>
+<div><strong>Estado Civil:</strong> ${cliente.estadoCivil}</div>
+<div><strong>Profissão:</strong> ${cliente.profissao}</div>
+<div><strong>Classe:</strong> ${cliente.classeAcao}</div>
+<div><strong>Tipo de ação:</strong> ${cliente.tipoAcao}</div>
+<div>
+<strong>Status:</strong> 
+<span class="badge ${cliente.status.replace(' ','-')}">
+${cliente.status}
+</span>
+</div>
+<div><strong>Forma de pagamento:</strong> ${cliente.formaPagamento}</div>
+<div><strong>Valor:</strong> R$ ${cliente.valor}</div>
+<div><strong>Vencimento:</strong> ${cliente.vencimento}</div>
+`;
+
+carregarHistorico();
+
+}
+
+function enviarAtualizacao(){
+
+const texto = document.getElementById("mensagemAtualizacao").value;
+
+if(!texto) return alert("Digite uma mensagem");
+
+const mensagem = `Olá ${cliente.nome}, atualização do seu processo:\n${texto}`;
+
+window.open(`https://wa.me/55${cliente.telefone}?text=${encodeURIComponent(mensagem)}`);
+
+salvarHistorico("Atualização enviada via WhatsApp");
+
+}
+
+function solicitarDocumento(){
+
+const mensagem = `Olá ${cliente.nome}, poderia enviar os documentos pendentes do seu processo?`;
+
+window.open(`https://wa.me/55${cliente.telefone}?text=${encodeURIComponent(mensagem)}`);
+
+salvarHistorico("Solicitação de documento enviada");
+
+}
+
+function anexarDocumento(){
+
+const arquivo = document.getElementById("arquivoDocumento").files[0];
+
+if(!arquivo) return alert("Selecione um arquivo");
+
+salvarHistorico("Documento anexado: " + arquivo.name);
+
+}
+
+function salvarHistorico(texto){
+
+if(!cliente.historico) cliente.historico = [];
+
+const data = new Date().toLocaleString();
+
+cliente.historico.push({ texto, data });
+
+localStorage.setItem("clientes", JSON.stringify(clientes));
+
+carregarHistorico();
+
+}
+
+function carregarHistorico(){
+
+const historicoDiv = document.getElementById("historico");
+
+historicoDiv.innerHTML = "";
+
+if(!cliente.historico || cliente.historico.length === 0){
+historicoDiv.innerHTML = "<p>Nenhuma comunicação registrada.</p>";
+return;
+}
+
+cliente.historico.forEach(item => {
+
+historicoDiv.innerHTML += 
+`
+<div class="historico-item">
+<div>${item.texto}</div>
+<small>${item.data}</small>
+</div>
+`;
+
+});
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Clientes - AutoJuris</title>
+
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div>
+    <div class="logo">⚖ AutoJuris</div>
+
+    <div class="menu">
+      <a href="dashboard.html"><i data-feather="home"></i> Dashboard</a>
+      <a href="clientes.html" class="active"><i data-feather="users"></i> Clientes</a>
+      <a href="financeiro.html"><i data-feather="dollar-sign"></i> Financeiro</a>
+      <a href="agenda.html"><i data-feather="calendar"></i> Agenda</a>
+      <a href="previsoes.html"><i data-feather="bar-chart-2"></i> Previsões</a>
+      <a href="contratos.html"><i data-feather="file-text"></i> Contratos</a>
+      <a href="inteligencia.html"><i data-feather="cpu"></i> Inteligência</a>
+      <a href="equipe.html"><i data-feather="users"></i> Gestão de Equipe</a>
+      <a href="escritorio.html"><i data-feather="briefcase"></i> Meu Escritório</a>
+    </div>
+  </div>
+
+  <div class="logout">
+    <i data-feather="log-out"></i> Sair
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <div class="clientes-topo">
+    <h1>Clientes</h1>
+
+    <button class="btn-novo" onclick="abrirModal()">
+      <i data-feather="plus"></i> Novo Cliente
+    </button>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="clientes-filtros">
+
+    <div class="filtro-status">
+      <i data-feather="filter"></i>
+
+      <select id="filtroStatus" onchange="filtrarClientes()">
+        <option value="Todos">Todos</option>
+        <option value="Em andamento">Em andamento</option>
+        <option value="Aguardando">Aguardando</option>
+        <option value="Finalizado">Finalizado</option>
+      </select>
+    </div>
+
+    <div class="campo-busca">
+      <i data-feather="search"></i>
+      <input type="text" id="pesquisa" placeholder="Buscar cliente..." onkeyup="filtrarClientes()">
+    </div>
+
+  </div>
+
+  <!-- LISTA -->
+  <div id="listaClientes" class="lista-clientes"></div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+
+    <div class="modal-header">
+      <h2>Novo Cliente</h2>
+      <span onclick="fecharModal()" style="cursor:pointer;">
+        <i data-feather="x"></i>
+      </span>
+    </div>
+
+    <form class="modal-form" onsubmit="cadastrarCliente(event)">
+
+      <input type="text" id="nome" placeholder="Nome *" required>
+      <input type="text" id="telefone" placeholder="Telefone *" required>
+      <input type="email" id="email" placeholder="Email *" required>
+      <input type="text" id="cpf" placeholder="CPF *" required>
+      <input type="text" id="rg" placeholder="RG *" required>
+      <input type="text" id="endereco" placeholder="Endereço *" required>
+      <input type="text" id="nacionalidade" placeholder="Nacionalidade *" required>
+
+      <select id="estadoCivil" required>
+        <option value="">Estado Civil *</option>
+        <option>Solteiro(a)</option>
+        <option>Casado(a)</option>
+        <option>Divorciado(a)</option>
+        <option>Viúvo(a)</option>
+        <option>União Estável</option>
+      </select>
+
+      <input type="text" id="profissao" placeholder="Profissão *" required>
+
+      <select id="classeAcao" required>
+        <option value="">Classe da ação *</option>
+        <option>Cível</option>
+        <option>Trabalhista</option>
+        <option>Criminal</option>
+        <option>Tributário</option>
+        <option>Administrativo</option>
+        <option>Extrajudicial</option>
+      </select>
+
+      <input type="text" id="tipoAcao" placeholder="Tipo de ação *" required>
+
+      <select id="status" required>
+        <option value="">Status *</option>
+        <option>Em andamento</option>
+        <option>Aguardando</option>
+        <option>Finalizado</option>
+      </select>
+
+      <select id="formaPagamento" required>
+        <option value="">Forma de pagamento *</option>
+        <option>À vista</option>
+        <option>Entrada + parcelas</option>
+        <option>Parcelado</option>
+        <option>Êxito</option>
+      </select>
+
+      <input type="number" id="valor" placeholder="Valor (R$) *" required>
+      <input type="date" id="vencimento" required>
+
+      <button type="submit" class="btn-primary-full">
+        <i data-feather="save"></i> Cadastrar
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<script src="../js/script.js"></script>
+
+<script>
+  feather.replace();
+</script>
+
+</body>
+</html>

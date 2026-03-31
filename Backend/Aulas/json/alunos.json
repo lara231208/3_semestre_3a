@@ -1,0 +1,34 @@
+{
+    "simples": "Ola mundo",
+
+    "aluno":{
+        "nome": "Lara Hara",
+        "idade": 17,
+        "curso": "DS"
+    },
+    "listaAlunos":[
+        {"nome": "Lara Hara", "idade": 17, "curso": "DS"},
+        {"nome": "Rafael Cavallin", "idade": 18, "curso": "Administração"},
+        {"nome": "Marlon", "idade": 23, "curso": "Direito"}
+    ],
+       "objetoDentroObjeto":{
+        "nome": "Pietra",
+        "periodo": {
+            "nome": "Desenvolvimento de sistemas",
+            "periodo": "Integral"
+        }
+    },
+    "listaObjetosDentroObjeto": {
+        "turma": "3º DS A",
+        "alunos":[
+            {"nome": "Maria Luiza", "idade": 16},
+            {"nome": "Nicoli", "idade": 18},
+            {"nome": "Julia", "idade": 16},
+            {"nome": "Valentina", "idade": 16}
+        ],
+        "professores": [
+            {"nome": "Edcarlos", "unidade curricular": "Matemática"},
+            {"nome": "Douglas", "unidade curricular": "Front-End"}
+        ]
+    }
+}
